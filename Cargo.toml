@@ -1,6 +1,6 @@
 [package]
 name = "mongorm"
-description = ""
+description = "MongORM-RS is a fast, simple, and powerful Object-Document Mapper (ODM) for MongoDB in Rust"
 authors = ["Syed Vilayat Ali Rizvi <vilayatcodemysite@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
@@ -11,4 +11,5 @@ edition = "2021"
 serde = { version = "1.0.193", features = ["derive"] }
 tokio = { version = "1.34.0", features = ["full"] }
 async-trait = "0.1.74"
+thiserror = "1.0.50"
 mongodb = "2.7.1"
