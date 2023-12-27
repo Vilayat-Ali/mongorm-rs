@@ -33,6 +33,52 @@ Or, add this to your `Cargo.toml`
 mongorm = "0.1.0"
 ```                   
 
+## Basic Usage
+
+```rust
+use mongorm::prelude::*;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize)]
+pub struct Todo {
+    task_id: String,
+    title: String,
+    is_completed: bool
+}
+
+#[tokio::main]
+async fn main() -> Result<(), mongorm::errors::Error> {
+    // establish connection to db
+    establish_connection();
+
+    // create a model
+    let todo_model = model!(Todo);
+
+    // perform CRUD
+    
+    // CREATE
+    let new_todo = todo_model.create<Todo>(Todo {
+        task_id: 1,
+        title: "Learn Rust".to_owned(),
+        is_completed: false
+    });
+
+    // READ
+    let todos = todo_model.find(None); 
+
+    // UPDATE
+    let _ = todo_model.findByIdAndUpdate<Todo>("...", Todo {
+        task_id: 1,
+        title: "Learn MONGODB".to_owned(),
+        is_completed: false
+    });
+
+    // DELETE
+    let - = todo_model.findByIdAndDelete<Todo>("...");
+}
+
+```
+
 ## Changelog
 
 [View the change history.](<link-to-your-github-repo/blob/main/CHANGELOG.md "View the change history.")
