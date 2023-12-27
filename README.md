@@ -74,7 +74,7 @@ async fn main() -> Result<(), mongorm::errors::Error> {
     });
 
     // DELETE
-    let - = todo_model.findByIdAndDelete<Todo>("...");
+    let _ = todo_model.findByIdAndDelete<Todo>("...");
 }
 
 ```
