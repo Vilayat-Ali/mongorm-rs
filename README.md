@@ -81,8 +81,8 @@ async fn main() -> Result<(), mongorm::errors::Error> {
 
 ## Changelog
 
-[View the change history.](<link-to-your-github-repo/blob/main/CHANGELOG.md "View the change history.")
+[View the change history.](<link-to-your-github-repo/blob/main/CHANGELOG.md> "View the change history.")
 
 ## License
 
-#### This project is licensed under the [MIT](<link-to-your-github-repo/LICENSE-MIT "MIT") and [Apache Version 2.0](<link-to-your-github-repo/LICENSE-APACHE "Apache Version 2.0")
+#### This project is licensed under the [MIT](<link-to-your-github-repo/LICENSE-MIT> "MIT") and [Apache Version 2.0](<link-to-your-github-repo/LICENSE-APACHE> "Apache Version 2.0")
