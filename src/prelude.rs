@@ -1,4 +1,4 @@
-use mongodb::{error::Result, options::ClientOptions, Client};
+use mongodb::{error::Result, options::ClientOptions, Client, Database};
 use std::collections::HashMap;
 
 pub enum ConnectionState {
@@ -8,28 +8,26 @@ pub enum ConnectionState {
     Disconnected,
 }
 
-impl Default for ConnectionState {
-    fn default() -> Self {
-        Self::Connected
-    }
-}
-
-struct Connection {
-    client: Client,
-    connection_state: ConnectionState,
+pub struct Connection {
+    pub client: Client,
+    pub connection_state: ConnectionState,
 }
 
 impl Connection {
     fn new(client: Client, connection_state: Option<ConnectionState>) -> Self {
         Self {
             client,
-            connection_state: connection_state.unwrap_or_default(),
+            connection_state: connection_state.unwrap_or(ConnectionState::Connecting),
         }
+    }
+
+    fn get_db(&self) -> Option<Database> {
+        self.client.default_database()
     }
 }
 
 pub struct Mongorm {
-    connections: Vec<Client>,
+    connections: Vec<Connection>,
     models: HashMap<&'static str, String>,
     options: MongormOptions,
 }
@@ -62,7 +60,10 @@ impl Mongorm {
         let options = ClientOptions::parse(conn_str.into()).await?;
         let client = Client::with_options(options)?;
 
-        self.connections.push(client);
+        self.connections.push(Connection {
+            client,
+            connection_state: ConnectionState::Connecting,
+        });
 
         Ok(self)
     }

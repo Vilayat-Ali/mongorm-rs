@@ -7,13 +7,25 @@ use serde::{de::DeserializeOwned, Serialize};
 
 #[async_trait]
 pub trait MongoModel {
-    async fn find_by_id<S>(_id: &S) -> Option<()>
+    async fn find_by_id<S>(&self, _id: &S) -> Option<()>
     where
         S: Into<String>;
 
-    async fn find(filter: Document) -> Option<()>;
+    async fn find(&self, filter: Document) -> Option<()>;
 
-    async fn get_all() -> Option<()>;
+    async fn get_paginated_data(
+        &self,
+        page: u32,
+        page_limit: u32,
+        search_value: Option<String>,
+        newest_first: bool,
+    ) -> Option<()>;
+
+    async fn find_one(&self, filter: Document) -> Option<()>;
+
+    async fn update_one(&self, filter: Document, update: Document) -> Option<()>;
+
+    async fn aggregate(&self, pipelines: Vec<Document>) -> Option<()>;
 }
 
 pub struct ModelOptions {
@@ -36,25 +48,4 @@ where
 {
     name: &'static str,
     collection: Collection<T>,
-}
-
-#[async_trait]
-impl<T> MongoModel for Model<T>
-where
-    T: Serialize + DeserializeOwned,
-{
-    async fn find_by_id<S>(_id: &S) -> Option<()>
-    where
-        S: Into<String>,
-    {
-        None
-    }
-
-    async fn find(filter: Document) -> Option<()> {
-        None
-    }
-
-    async fn get_all() -> Option<()> {
-        None
-    }
 }
